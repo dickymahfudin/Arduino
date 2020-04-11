@@ -4,7 +4,7 @@
 - Webserver django [adam](https://github.com/hadyanadam)
 ## Nodemcu
 - Get dan Put rest api
-## Araduino
+## Arduino
 - Input RFID
 - Output Motor Servo
 <p align="center">
