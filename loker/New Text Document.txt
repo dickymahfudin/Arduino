@@ -1,0 +1,2 @@
+https://circuitdigest.com/microcontroller-projects/arduino-qr-code-generator
+http://www.barcode-generator.org/
