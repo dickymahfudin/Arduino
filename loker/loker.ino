@@ -37,13 +37,15 @@ int send6 = 0;
 int aktif = 0;
 int pasif = 1;
 
-char auth[] = "YtQcUqOEdp7iWbpOm1fov2TQHCI2vnnd";
-char ssid[] = "Dism";
-char pass[] = "RoUmAhKITA";
+char auth[] = "mk-fD9isJvxYWT_Sm2JJWHB9rbU8CNhC";
+char ssid[] = "Izey";
+char pass[] = "izeybaik123";
+char server[] = "119.18.158.238";
+int port = 3579;
 
 bool state = false;
 int start = 1;
-int duration = 20;
+int duration = 10;
 
 const unsigned char qrCode [] PROGMEM = {
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -147,9 +149,10 @@ void setup() {
   pinMode(input4, INPUT);
   pinMode(input5, INPUT);
   pinMode(input6, INPUT);
-  
-  Blynk.begin(auth, ssid, pass);
-    
+
+  //  Blynk.begin(auth, ssid, pass);
+  Blynk.begin(auth, ssid, pass, server, port);
+
   sendParam();
   digitalWrite(led, HIGH);
 
@@ -208,7 +211,7 @@ void Selonoid(String param) {
 void sensor () {
   display.drawBitmap(0, 0, qrCode, 128, 64, WHITE); // display.drawBitmap(x position, y position, bitmap data, bitmap width, bitmap height, color)
   display.display();
-  
+
   loker1 = digitalRead(input1);
   loker2 = digitalRead(input2);
   loker3 = digitalRead(input3);
