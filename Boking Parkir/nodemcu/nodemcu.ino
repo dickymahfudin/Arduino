@@ -4,6 +4,8 @@
 #include "WString.h"
 #include <Arduino.h>
 
+#define led D1
+
 const char* ssid = "Dism";
 const char* password = "RoUmAhKITA";
 String command;
@@ -12,22 +14,25 @@ String dt[10];
 int i;
 boolean parsing = false;
 
-unsigned long previousMillis = 0;    
-const long interval = 10000;         
+unsigned long previousMillis = 0;
+const long interval = 6000;
 
 void setup () {
-
+  pinMode(led, OUTPUT);
   Serial.begin(9600);
   dataIn = "";
   WiFi.begin(ssid, password);
 
   while (WiFi.status() != WL_CONNECTED) {
-
-    delay(1000);
+    digitalWrite(led, HIGH);
+    delay(500);
+    digitalWrite(led, LOW);
+    delay(500);
     Serial.println("Connecting..");
   }
   Serial.println("Masuk Pak");
   //    putt();
+  digitalWrite(led, HIGH);
 }
 
 void loop() {
@@ -46,12 +51,12 @@ void loop() {
       if (httpCode > 0) { //Check the returning code
         String payload = http.getString();   //Get the request response payload
         Serial.println(payload);
-        delay(500);
+        delay(100);
       }
       http.end();   //Close connection
     }
   }
-  delay(100);
+  delay(10);
 }
 
 void putt() {
@@ -107,7 +112,7 @@ void parsingData() {
     if ((dataIn[i] == '#') || (dataIn[i] == ','))
     {
       j++;
-      dt[j] = ""; 
+      dt[j] = "";
       z++;
     }
     else
@@ -143,6 +148,6 @@ void parsingData() {
     int httpCode = http.PUT(rootstr);
     Serial.println(httpCode);
     http.end();
-    delay(2000);
+    delay(1000);
   }
 }
