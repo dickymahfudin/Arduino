@@ -5,6 +5,9 @@
 #include <Arduino.h>
 
 #define led D1
+#define led1 D2
+#define led2 D4
+#define led3 D3
 
 const char* ssid = "Dism";
 const char* password = "RoUmAhKITA";
@@ -19,6 +22,10 @@ const long interval = 6000;
 
 void setup () {
   pinMode(led, OUTPUT);
+  pinMode(led1, OUTPUT);
+  pinMode(led2, OUTPUT);
+  pinMode(led3, OUTPUT);
+
   Serial.begin(9600);
   dataIn = "";
   WiFi.begin(ssid, password);
@@ -33,6 +40,9 @@ void setup () {
   Serial.println("Masuk Pak");
   //    putt();
   digitalWrite(led, HIGH);
+  digitalWrite(led1, LOW);
+  digitalWrite(led2, LOW);
+  digitalWrite(led3, LOW);
 }
 
 void loop() {
@@ -46,11 +56,27 @@ void loop() {
       previousMillis = currentMillis;
 
       HTTPClient http;  //Declare an object of class HTTPClient
-      http.begin("http://skripsiparkir.pythonanywhere.com/api/parkirs/?format=json");
-      int httpCode = http.GET();
+      http.begin("http://skripsiparkir.pythonanywhere.com/api/parkirs/validation/all/?format=json");
+      int httpCode = http.GET(); 
       if (httpCode > 0) { //Check the returning code
         String payload = http.getString();   //Get the request response payload
         Serial.println(payload);
+        const size_t capacity = JSON_ARRAY_SIZE(3) + 3 * JSON_OBJECT_SIZE(3) + 170;
+        DynamicJsonBuffer jsonBuffer(capacity);
+        JsonArray& root = jsonBuffer.parseArray(payload);
+
+        JsonObject& root_0 = root[0];
+        bool root_0_book_status = root_0["book_status"]; // true
+        digitalWrite(led3, root_0_book_status);
+
+
+        JsonObject& root_1 = root[1];
+        bool root_1_book_status = root_1["book_status"]; // true
+        digitalWrite(led1, root_1_book_status);
+
+        JsonObject& root_2 = root[2];
+        bool root_2_book_status = root_2["book_status"]; // true
+        digitalWrite(led2, root_2_book_status);
         delay(100);
       }
       http.end();   //Close connection
